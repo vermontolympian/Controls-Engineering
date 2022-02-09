@@ -1,4 +1,3 @@
-% spring mass simulation
 clc; clear; close all
 
 % system params
@@ -15,15 +14,12 @@ B = [0; -1/(M*L); 0; 1/M];
 Ts = 0.02;
 Tf = 40;
 T = 0:Ts:Tf;
-initial = [0,0.001,0,0]'; % initial condition
+initial = [0,0.5,0,0]'; % initial condition
 x = zeros(length(T),4);
 u = 0;
 
 for i = 1:length(T)
    % calculate states over time
-   % dx = Ax + Bu
-   % x_new = x_old + (dx/dt)
-   % x_old = x(i,:);
    
    d = A*initial + B*u;
    
@@ -43,12 +39,10 @@ mass_d = 0.3;
 % draw mass
 [F, V] = stlread_mod('mass1.STL');
 mass = patch('Faces',F,'Vertices',V(1:3,:)','Facecolor', [0.5 0 0.5], 'Edgecolor', 'none');
-% draw simplified spring
-% spring = line([0, x(1,1)], [0,0], [mass_d/2, mass_d/2], 'Linewidth', 5);   % draw spring
 
 
 pendulum = line([x(1,3), x(1,3) + L*cos(x(1,1) + (pi/2))], [0, 0], [mass_d, mass_d + L*sin(x(1,1) + (pi/2))], 'LineWidth', 5);
-ball = line([x(1,3) + L*cos(x(1,1) + (pi/2)), x(1,3) + L*cos(x(1,1) + (pi/2))], [0, 0], [mass_d + L*sin(x(1,1) + (pi/2)), mass_d + L*sin(x(1,1) + (pi/2))],'Marker'o', 'LineWidth', 10, 'Color', [1,0,0]);
+ball = line([x(1,3) + L*cos(x(1,1) + (pi/2)), x(1,3) + L*cos(x(1,1) + (pi/2))], [0, 0], [mass_d + L*sin(x(1,1) + (pi/2)), mass_d + L*sin(x(1,1) + (pi/2))],'Marker', 'o', 'LineWidth', 8, 'Color', [1,0,0]);
 
 
 view(3);

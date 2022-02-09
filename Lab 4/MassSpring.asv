@@ -13,13 +13,28 @@ s=tf('s');
 
 syms s
 
-numerator = [k1*((b*s)+k2)];
-denominator = [m1*m2; b*(m1+m2); ()]
+numerator = [k1*b, k1*k2];
+denominator = [m1*m2, b*(m1+m2), (k1*m2 + (m1 +m2)*k2), k1*b, k1*k2];
 (m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2;
 
 Y = (k1*((b*s)+k2))/((m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2);
 
-sys = tf(numerator, denominator);
-y = ilaplace(sys)
+sys = tf(numerator, denominator)
 
-% sys_tf
+
+% Simulation
+t = 0:0.2:60;
+step
+my_function_values = step(sys,t);
+grid on;
+% Rise Time
+
+
+% Peak Time
+
+
+% Max Overshoot
+max_overshoot = max(my_function_values)
+
+% Settling Time (5%)
+

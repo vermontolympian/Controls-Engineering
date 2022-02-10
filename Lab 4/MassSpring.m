@@ -28,6 +28,7 @@ t = 0:ts:60;
 step(sys,t)
 my_function_values = step(sys,t);
 grid on;
+hold on;
 
 [max_overshoot,Index] = max(my_function_values);
 
@@ -50,4 +51,15 @@ Peak_Time = Index * ts
 max_overshoot
 
 % Settling Time (5%)
+%TODO
+my_function = (50*s + 25)/(2*s^4 + 30*s^3 + 25*s^2 + 50*s + 25);
+
+DF = round(diff(my_function_values), 8);
+SDF = sign(DF);
+
+index = find(SDF == 0);
+times = index * ts
+
+
+
 

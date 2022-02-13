@@ -23,7 +23,7 @@ sys = tf(numerator, denominator)
 
 
 % Simulation
-ts = 0.0001;
+ts = 0.001;
 t = 0:ts:60;
 step(sys,t)
 my_function_values = step(sys,t);
@@ -51,6 +51,7 @@ Peak_Time = Index * ts
 max_overshoot
 
 % Settling Time (5%)
+%TODO
 my_function = (50*s + 25)/(2*s^4 + 30*s^3 + 25*s^2 + 50*s + 25);
 
 DF = diff(my_function_values);
@@ -67,16 +68,15 @@ for i = 1:size(times,1)
    values(i,1) = my_function_values(index(i,1),1); 
 end
 
-within = zeros(size(index,1), 2);
+5per = 1 * 0.05;
+
+within = zeros(size(index,1), 1);
 
 for j = 1:size(times,1)
-    if 0.05 >= abs(1 - values(j,1))
-       within(j,1) =  ts * index(j,1);
-       within(j,2) = my_function_values(index(j,1),1);
+    if 5per >= abs(1 - values(j,1))
+       within(j,1) =  
     end
 end
 
-
-settling_time = within(find(within ~= 0, 1),1)
 
 

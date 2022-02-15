@@ -8,6 +8,7 @@ k1 = 5;
 k2 = 5;
 b = 10;
 
+disp('hi brandon!')
 
 s=tf('s');
 
@@ -15,9 +16,9 @@ syms s
 
 numerator = [k1*b, k1*k2];
 denominator = [m1*m2, b*(m1+m2), (k1*m2 + (m1 +m2)*k2), k1*b, k1*k2];
-(m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2;
+% (m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2;
 
-Y = (k1*((b*s)+k2))/((m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2);
+% Y = (k1*((b*s)+k2))/((m1*m2*2^4) + b*s^3*(m1 + m2) + (k1*m2 + (m1 + m2)*k2)*s^2 + k1*b*s + k1*k2);
 
 sys = tf(numerator, denominator)
 
@@ -32,7 +33,6 @@ hold on;
 
 [max_overshoot,Index] = max(my_function_values);
 
-stepinfo(sys)
 
 % Rise Time
 % 10%
@@ -51,8 +51,6 @@ Peak_Time = Index * ts
 max_overshoot
 
 % Settling Time (5%)
-my_function = (50*s + 25)/(2*s^4 + 30*s^3 + 25*s^2 + 50*s + 25);
-
 DF = diff(my_function_values);
 SDF = sign(DF);
 DFSDF = diff(SDF);
@@ -61,6 +59,7 @@ index = find(DFSDF ~= 0);
 times = index * ts;
 
 values = zeros(size(index,1), 1);
+
 
 
 for i = 1:size(times,1)
@@ -76,7 +75,6 @@ for j = 1:size(times,1)
     end
 end
 
+disp('im done! yay')
 
 settling_time = within(find(within ~= 0, 1),1)
-
-

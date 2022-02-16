@@ -25,10 +25,6 @@ C = [1 0 0 0;
     0 0 1 0];
 D = [0 ; 0];
 
-Ts = 0.02;
-Tf = 10;
-T = 0:Ts:Tf;
-
 states = {'x' 'x_dot' 'phi' 'phi_dot'};
 inputs = {'u'};
 outputs = {'x' ; 'phi'};
@@ -36,9 +32,5 @@ outputs = {'x' ; 'phi'};
 sys_ss = ss(A,B,C,D, 'statename', states, 'inputname', inputs, 'outputname', outputs)
 
 sys_tf = tf(sys_ss)
-poles(sys_tf)
-% poles = eig(A)
 
-step(sys_ss)
-
-% plot(T, x(:,:));
+poles = eig(A)

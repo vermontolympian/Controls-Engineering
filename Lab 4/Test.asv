@@ -52,6 +52,4 @@ S = solve(equ, K);
 k_1 = S.k1;
 k_2 = S.k2;
 k_3 = S.k3;
-k_4 = S.k4;
-
-k = [k_1; k_2; k_3; k_4;]
+k_4 = S

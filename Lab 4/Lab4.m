@@ -24,6 +24,39 @@ C = [1 0 0 0;
     0 0 1 0];
 D = [0 ; 0]; 
 
+
+syms k1 k2 k3 k4 lambda
+
+K = [k1, k2, k3, k4];
+
+lambdas = [-1, -2, -1+i, -1-i];
+
+MM = A-B*K;
+
+eq = det(A-B*K-lambda*eye(4));
+
+equ1 = subs(eq, lambda, lambdas(1)) == 0;
+
+equ2 = subs(eq, lambda, lambdas(2)) == 0;
+
+equ3 = subs(eq, lambda, lambdas(3)) == 0;
+
+equ4 = subs(eq, lambda, lambdas(4)) == 0;
+
+equ = [equ1, equ2, equ3, equ4];
+
+S = solve(equ, K);
+
+k_1 = S.k1;
+k_2 = S.k2;
+k_3 = S.k3;
+k_4 = S.k4;
+
+k = [k_1, k_2, k_3, k_4]
+
+
+
+
 % calculate states
 Ts = 0.02;
 Tf = 10;
@@ -39,6 +72,8 @@ for i = 1:length(T)
    x_new = initial + d*Ts;
    x(i,:) = x_new;
    initial = x_new;
+   
+   u = -k*x_new;
 end
 
 
@@ -74,6 +109,10 @@ for i = 1:numel(T)
    title(['Iteration: ', num2str(i)]);
    xlabel('x [m]'); ylabel('y [m]'); zlabel('z [m]');
    axis equal
-   xlim([-6, 6])
+   xlim([-1.5, 2.5])
    pause(0.001);
 end
+
+figure()
+plot(T,x)
+legend()

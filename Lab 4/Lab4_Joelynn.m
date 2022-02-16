@@ -33,4 +33,4 @@ sys_ss = ss(A,B,C,D, 'statename', states, 'inputname', inputs, 'outputname', out
 
 sys_tf = tf(sys_ss)
 
-poles = eig(A)
+poles = eig(A)1341449

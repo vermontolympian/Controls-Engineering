@@ -22,10 +22,8 @@ p = I*(M+m)+M*m*1^2; % denomiator for the A and B matrices
 %     m*L/p];
 
 A = [0, 1, 0, 0;
-     (M + m)*g/M*L, 0, 0, 0;
-     0, 0, 0, 1;
-     (-m*g)/M, 0, 0, 0];
-B = [0; -1/(M*L); 0; 1/M];
+     (M + m)/M*];
+B = [];
 C = [1 0 0 0;
     0 0 1 0];
 D = [0 ; 0]; 
@@ -37,6 +35,7 @@ K = [k1, k2, k3, k4];
 
 lambdas = [-1, -2, -1+i, -1-i];
 
+MM = A-B*K;
 
 eq = det(A-B*K-lambda*eye(4));
 
@@ -63,7 +62,7 @@ k = [k_1, k_2, k_3, k_4]
 
 
 % calculate states
-Ts = 0.01;
+Ts = 0.02;
 Tf = 10;
 T = 0:Ts:Tf;
 initial = [0,0.2,0,0.1]'; % initial condition
@@ -119,6 +118,5 @@ for i = 1:numel(T)
 end
 
 figure()
-plot(T,x, 'Linewidth', 5)
-title('Inverted Pendulum Cart', 'Fontsize',20)
-legend('Cart Position', 'Cart Velocity', 'Pendulum Angle', 'Pendulum Velocity', 'Fontsize', 20)
+plot(T,x)
+legend()

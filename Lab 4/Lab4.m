@@ -28,9 +28,8 @@ D = [0 ; 0];
 Ts = 0.02;
 Tf = 10;
 T = 0:Ts:Tf;
-initial = [0,0.5,0,0]'; % initial condition
+initial = [0,0.2,0,0.1]'; % initial condition
 x = zeros(length(T),4);
-
 
 for i = 1:length(T)
    % calculate states over time

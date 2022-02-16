@@ -8,7 +8,6 @@ k1 = 5;
 k2 = 5;
 b = 10;
 
-disp('hi brandon!')
 
 s=tf('s');
 

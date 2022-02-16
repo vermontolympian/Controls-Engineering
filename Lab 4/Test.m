@@ -25,17 +25,21 @@ C = [1 0 0 0;
     0 0 1 0];
 D = [0 ; 0]; 
 
-syms K lambda
+syms K k1 k2 k3 k4 lambda
 
 Ks = [0, -0.909, -3.1844, 3.1759];
 
-% det(A-B*K-lambda*I);
+% det(A-B*K-lambda*I)=0;
 
-equ1 = 0 == det(A-B*K-Ks(1)*I);
-equ2 = 0 == det(A-B*K-Ks(2)*I);
-equ3 = 0 == det(A-B*K-Ks(3)*I);
-equ4 = 0 == det(A-B*K-Ks(4)*I);
+equ1 = 0 == det(A-B*K-k1*I);
+subs(equ1, k1, Ks(1));
+equ2 = 0 == det(A-B*K-k2*I);
+subs(equ2, k2, Ks(2));
+equ3 = 0 == det(A-B*K-k3*I);
+subs(equ3, k3, Ks(3));
+equ4 = 0 == det(A-B*K-k4*I);
+subs(equ4, k4, Ks(4));
 
 equ = [equ1, equ2, equ3, equ4];
 
-S = vpasolve(equ4, K)
+S = solve(equ, K)

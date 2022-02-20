@@ -1,8 +1,8 @@
 function u = PD_pend_cart(x,xd)
-    kpp = -25;
-    kpc = -.25;
-    kdp = -2;
-    kdc = -1;
+    kpp = -25*6;
+    kpc = -.25*6;
+    kdp = -2*6;
+    kdc = -1*6;
     
     e_p = xd(1) - x(1);
     e_dot_p = xd(2) - x(2);

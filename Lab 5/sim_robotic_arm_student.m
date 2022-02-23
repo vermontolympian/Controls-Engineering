@@ -38,7 +38,7 @@ global jointTargetPos robot dof
     % Hint: calculate what's dx
     
     torque = jointPD(jointTargetPos, zeros(dof,1), x);
-    
+
     x_double_dot = forwardDynamics(robot, jointTargetPos, zeros(dof,1), torque);
 
     dx = [x((dof+1):end,1);x_double_dot];

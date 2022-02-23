@@ -45,14 +45,17 @@ end
 function tau = jointPD(joint_target_pos,joint_target_vel,state)
 global dof
     % ===== your code here =====
-    kp = 0.1;
-    kd = 0.01;
-    tau = zeros(dof, 1);
+    kpp = 0.1;
+    kdp = 0.01;
+    kpv = 0.1;
+    kdv = 0.01;
+    
+    tau = up + uv;
     for i = 1:dof
         ep = joint_target_pos(i) - state(i,1);
-        ev = joint_target_vel(i) - state((dof + i));
-        
-        u = (ep * kp) + (ev * kd) ;
-        tau(i,1) = u;
+        ev = joint_target_vel(i) - state((dof + i), 1);
+
+        up = ;
+        uv = ;
     end
 end

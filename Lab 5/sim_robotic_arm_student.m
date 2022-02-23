@@ -38,15 +38,17 @@ global jointTargetPos robot dof
     % Hint: calculate what's dx
     
     torque = jointPD(jointTargetPos, zeros(dof,1), x);
+    
+    x_double_dot = forwardDynamics(robot, jointTargetPos, zeros(dof,1), torque);
 
-    dx = forwardDynamics(robot, jointTargetPos, zeros(dof,1), torque);
+    dx = [x((dof+1):end,1);x_double_dot];
 end
 
 function tau = jointPD(joint_target_pos,joint_target_vel,state)
 global dof
     % ===== your code here =====
-    kp = 0.1;
-    kd = 0.01;
+    kp = 40;
+    kd = 25;
     tau = zeros(dof, 1);
     for i = 1:dof
         ep = joint_target_pos(i) - state(i,1);

@@ -36,9 +36,29 @@ global jointTargetPos robot dof
     % Hint: call jointPD function to calculate current joint torques needed
     % Hint: use forward function to calculate the joint acceleration
     % Hint: calculate what's dx
+    
+    
+    
+%     torque = jointPD(jointTargetPos, 0, );
+%     stuff = 
+%     
+%     dx = [x(dof:(2*dof),1); stuff];
 end
 
 function tau = jointPD(joint_target_pos,joint_target_vel,state)
 global dof
     % ===== your code here =====
+    kpp = ;
+    kdp = ;
+    kpv = ;
+    kdv = ;
+    
+    tau = up + uv;
+    for i = 1:dof
+        ep = joint_target_pos(i) - state(i,1);
+        ev = joint_target_vel(i) - state((dof + i), 1);
+
+        up = ;
+        uv = ;
+    end
 end

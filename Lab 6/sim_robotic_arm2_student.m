@@ -83,6 +83,12 @@ function [angle, delta_angle] = getJointDesired(t)
     % current time 't' with the polynomial coefficients 'p_joints'
     % **Hint**: use 'polyder' and 'polyval' to calculate the desired joint 
     % velocies at current time 't' with the polynomial coefficients 'p_joints'
+    angle = zeros(size(p_joints,1),1);
+    delta_angle = zeros(size(p_joints,1),1);
+    for i = 1:size(p_joints,1)
+        angle(i) = polyval(p_joints(i,:), t);
+        delta_angle(i) = polyval(polyder(p_joints(i,:)), t);
+    end
 end
 
 function dx = armODE(t, x)
@@ -91,6 +97,13 @@ global robot
     % **Hint**: first call 'getJointDesired' function to calculate the
     % desired joint positions and velocities at current time 't'
     % **Hint**: the rest part is the same as lab5
+    desired = getJointDesired(t);
+    
+    torque = jointPD(desired(1:6), desired(7:end), x);
+
+    x_double_dot = forwardDynamics(robot, desired(1:6), desired(7:end), torque);
+
+    dx = [x((dof+1):end,1);x_double_dot];
 end
 
 function tau = jointPD(joint_target_pos,joint_target_vel,x)
@@ -98,4 +111,16 @@ function tau = jointPD(joint_target_pos,joint_target_vel,x)
     % **Hint**: implement the same thing you did in lab5
     % **Hint**: you may consider different Kp and Kd for different joint
     % to achieve better tracking performance
+    
+    
+    kp = [40, 40, 40, 40, 40, 40];
+    kd = [25, 25, 25, 25, 25, 25];
+    tau = zeros(size(joint_target_pos,1), 1);
+    for i = 1:size(joint_target_pos,1)
+        ep = joint_target_pos(i) - x(i,1);
+        ev = joint_target_vel(i) - x((size(joint_target_pos,1) + i));
+        
+        u = (ep * kp(i)) + (ev * kd(i)) ;
+        tau(i,1) = u;
+    end
 end

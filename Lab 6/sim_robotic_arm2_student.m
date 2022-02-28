@@ -44,21 +44,21 @@ tic;
 toc;    % may still run for several minutes, depending on how much computation power you have
 
 %% animation
-figure('Position',[1920/3,1080/3,1000,460])
-set(gcf,'Visible','on');
-show(robot, X(1,1:dof)');
-view(60,10);
-hold on
-plot3(q(1,:),q(2,:),q(3,:),'.r')                                    % plot desired end-effector trajectory
-interval = round(0.01*length(X));
-for i = 1:interval:length(X)
-    eef_pose = getTransform(robot,X(i,1:dof)','tool0','base');      % get end-effector pose as a transformation matrix
-    show(robot,X(i,1:dof)','PreservePlot',false);                   % plot robot configuration
-    plot3(eef_pose(1,end),eef_pose(2,end),eef_pose(3,end),'.b')     % plot actual end-effector trajectory
-    title(sprintf('Frame = %d of %d', i, length(X)));
-    xlim([-0.8,0.8]); ylim([-0.8,0.8]); zlim([0,0.8]);
-    drawnow
-end
+% figure('Position',[1920/3,1080/3,1000,460])
+% set(gcf,'Visible','on');
+% show(robot, X(1,1:dof)');
+% view(60,10);
+% hold on
+% plot3(q(1,:),q(2,:),q(3,:),'.r')                                    % plot desired end-effector trajectory
+% interval = round(0.01*length(X));
+% for i = 1:interval:length(X)
+%     eef_pose = getTransform(robot,X(i,1:dof)','tool0','base');      % get end-effector pose as a transformation matrix
+%     show(robot,X(i,1:dof)','PreservePlot',false);                   % plot robot configuration
+%     plot3(eef_pose(1,end),eef_pose(2,end),eef_pose(3,end),'.b')     % plot actual end-effector trajectory
+%     title(sprintf('Frame = %d of %d', i, length(X)));
+%     xlim([-0.8,0.8]); ylim([-0.8,0.8]); zlim([0,0.8]);
+%     drawnow
+% end
 
 %% plot tracking error
 figure('Position',[1920/3,1080/3,1100,500])
@@ -92,18 +92,18 @@ function [angle, delta_angle] = getJointDesired(t)
 end
 
 function dx = armODE(t, x)
-global robot
+global robot dof
     % ===== your code here =====
     % **Hint**: first call 'getJointDesired' function to calculate the
     % desired joint positions and velocities at current time 't'
     % **Hint**: the rest part is the same as lab5
-    desired = getJointDesired(t);
+    [des_pos, des_vel] = getJointDesired(t);
     
-    torque = jointPD(desired(1:6), desired(7:end), x);
+    torque = jointPD(des_pos, des_vel, x);
 
-    x_double_dot = forwardDynamics(robot, desired(1:6), desired(7:end), torque);
+    x_double_dot = forwardDynamics(robot, des_pos, des_vel, torque);
 
-    dx = [x((dof+1):end,1);x_double_dot];
+    dx = [x(7:end,1);x_double_dot];
 end
 
 function tau = jointPD(joint_target_pos,joint_target_vel,x)
@@ -112,15 +112,14 @@ function tau = jointPD(joint_target_pos,joint_target_vel,x)
     % **Hint**: you may consider different Kp and Kd for different joint
     % to achieve better tracking performance
     
-    
-    kp = [40, 40, 40, 40, 40, 40];
-    kd = [25, 25, 25, 25, 25, 25];
+    kp = [40, 120, 100, 60, 40, 40];
+    kd = [25, 35, 45, 30, 25, 20];
     tau = zeros(size(joint_target_pos,1), 1);
     for i = 1:size(joint_target_pos,1)
         ep = joint_target_pos(i) - x(i,1);
-        ev = joint_target_vel(i) - x((size(joint_target_pos,1) + i));
+        ev = joint_target_vel(i) - x(6+i, 1);
         
-        u = (ep * kp(i)) + (ev * kd(i)) ;
+        u = (ep * kp(i)) + (ev * kd(i));
         tau(i,1) = u;
     end
 end

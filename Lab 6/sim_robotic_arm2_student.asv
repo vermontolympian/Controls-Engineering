@@ -44,21 +44,21 @@ tic;
 toc;    % may still run for several minutes, depending on how much computation power you have
 
 %% animation
-figure('Position',[1920/3,1080/3,1000,460])
-set(gcf,'Visible','on');
-show(robot, X(1,1:dof)');
-view(60,10);
-hold on
-plot3(q(1,:),q(2,:),q(3,:),'.r')                                    % plot desired end-effector trajectory
-interval = round(0.01*length(X));
-for i = 1:interval:length(X)
-    eef_pose = getTransform(robot,X(i,1:dof)','tool0','base');      % get end-effector pose as a transformation matrix
-    show(robot,X(i,1:dof)','PreservePlot',false);                   % plot robot configuration
-    plot3(eef_pose(1,end),eef_pose(2,end),eef_pose(3,end),'.b')     % plot actual end-effector trajectory
-    title(sprintf('Frame = %d of %d', i, length(X)));
-    xlim([-0.8,0.8]); ylim([-0.8,0.8]); zlim([0,0.8]);
-    drawnow
-end
+% figure('Position',[1920/3,1080/3,1000,460])
+% set(gcf,'Visible','on');
+% show(robot, X(1,1:dof)');
+% view(60,10);
+% hold on
+% plot3(q(1,:),q(2,:),q(3,:),'.r')                                    % plot desired end-effector trajectory
+% interval = round(0.01*length(X));
+% for i = 1:interval:length(X)
+%     eef_pose = getTransform(robot,X(i,1:dof)','tool0','base');      % get end-effector pose as a transformation matrix
+%     show(robot,X(i,1:dof)','PreservePlot',false);                   % plot robot configuration
+%     plot3(eef_pose(1,end),eef_pose(2,end),eef_pose(3,end),'.b')     % plot actual end-effector trajectory
+%     title(sprintf('Frame = %d of %d', i, length(X)));
+%     xlim([-0.8,0.8]); ylim([-0.8,0.8]); zlim([0,0.8]);
+%     drawnow
+% end
 
 %% plot tracking error
 figure('Position',[1920/3,1080/3,1100,500])
@@ -112,8 +112,8 @@ function tau = jointPD(joint_target_pos,joint_target_vel,x)
     % **Hint**: you may consider different Kp and Kd for different joint
     % to achieve better tracking performance
     
-    kp = [40, 300, 190, 250, 40, 250];
-    kd = [25, 30, 25, 15, 25, 15];
+    kp = [40, 300, 130, 130, 40, 150];
+    kd = [25, 20, 35, 15, 25, 20];
     tau = zeros(size(joint_target_pos,1), 1);
     for i = 1:size(joint_target_pos,1)
         ep = joint_target_pos(i) - x(i,1);
